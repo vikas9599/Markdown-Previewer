@@ -1,0 +1,11 @@
+{
+  "name": "advanced-markdown-previewer",
+  "version": "0.1.0",
+  "description": "Advanced Markdown Previewer - static single page app",
+  "scripts": {
+    "start": "live-server src --port=3000",
+    "serve": "live-server src --port=3000"
+  },
+  "keywords": ["markdown", "preview", "editor"],
+  "license": "MIT"
+}

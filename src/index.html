@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Markdown Previewer</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <header>
+    <div>
+      <h1>Advanced Markdown Previewer</h1>
+      <p>Professional Markdown editor with advanced features</p>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Editor controls">
+      <div class="font-size-controls">
+        <button id="font-decrease" type="button" title="Decrease font size">A-</button>
+        <button id="font-reset" type="button" title="Reset font size">A</button>
+        <button id="font-increase" type="button" title="Increase font size">A+</button>
+      </div>
+      <button id="find-replace" type="button">Find & Replace</button>
+      <button id="toggle-toc" type="button">Toggle TOC</button>
+      <button id="theme-toggle" type="button" aria-pressed="false">Dark Mode</button>
+      <button id="fullscreen" type="button">Fullscreen</button>
+      <button id="help" type="button">Help</button>
+      <button id="copy-markdown" type="button">Copy</button>
+      <button id="download-md" type="button">.md</button>
+      <button id="download-html" type="button">.html</button>
+      <button id="download-doc" type="button">.doc</button>
+      <button id="download-pdf" type="button" class="primary">PDF</button>
+    </div>
+  </header>
+
+  <main id="workspace">
+    <section class="panel editor-pane" aria-label="Markdown editor">
+      <div class="panel-header">
+        <span>Markdown Editor</span>
+        <div class="panel-actions">
+          <button id="toggle-line-numbers" type="button" title="Toggle line numbers">#</button>
+          <button id="toggle-wrap" type="button" title="Toggle word wrap">Wrap</button>
+          <button id="undo-btn" type="button" title="Undo">↶</button>
+          <button id="redo-btn" type="button" title="Redo">↷</button>
+          <button id="clear-editor" type="button">Clear</button>
+        </div>
+      </div>
+      <div class="find-replace-bar" id="find-replace-bar">
+        <input type="text" id="find-input" placeholder="Find..." />
+        <span class="find-count" id="find-count"></span>
+        <button id="find-prev" type="button">↑</button>
+        <button id="find-next" type="button">↓</button>
+        <input type="text" id="replace-input" placeholder="Replace..." />
+        <button id="replace-btn" type="button">Replace</button>
+        <button id="replace-all-btn" type="button">Replace All</button>
+        <button id="close-find" type="button">✕</button>
+      </div>
+      <div class="markdown-toolbar">
+        <button id="tool-bold" type="button" title="Bold (Ctrl+B)"><strong>B</strong></button>
+        <button id="tool-italic" type="button" title="Italic (Ctrl+I)"><em>I</em></button>
+        <button id="tool-strikethrough" type="button" title="Strikethrough">S̶</button>
+        <button id="tool-code" type="button" title="Inline code">&lt;/&gt;</button>
+        <button id="tool-link" type="button" title="Link">🔗</button>
+        <button id="tool-image" type="button" title="Image">🖼️</button>
+        <button id="tool-h1" type="button" title="Heading 1">H1</button>
+        <button id="tool-h2" type="button" title="Heading 2">H2</button>
+        <button id="tool-h3" type="button" title="Heading 3">H3</button>
+        <button id="tool-list" type="button" title="Unordered list">• List</button>
+        <button id="tool-ordered-list" type="button" title="Ordered list">1. List</button>
+        <button id="tool-quote" type="button" title="Blockquote">"</button>
+        <button id="tool-table" type="button" title="Table">Table</button>
+        <button id="tool-hr" type="button" title="Horizontal rule">—</button>
+      </div>
+      <div class="editor-wrapper" id="editor-wrapper">
+        <div class="line-numbers" id="line-numbers"></div>
+        <textarea id="markdown-input" spellcheck="false" aria-label="Markdown input"
+          placeholder="Start typing your Markdown here... Press Ctrl+/ for help"></textarea>
+      </div>
+    </section>
+    <div class="divider" role="separator" aria-orientation="vertical" aria-label="Resize panels"></div>
+    <section class="panel preview-pane" aria-label="Markdown preview">
+      <div class="panel-header">
+        <span>Preview</span>
+        <div class="panel-actions">
+          <button id="open-preview-window" type="button">Pop-out</button>
+        </div>
+      </div>
+      <article id="preview" aria-live="polite"></article>
+    </section>
+  </main>
+
+  <section class="stats" id="stats" aria-live="polite"></section>
+
+  <footer>
+    <span>Keyboard shortcuts: Ctrl+F (Find), Ctrl+H (Replace), Ctrl+/ (Help), Ctrl+Z (Undo), Ctrl+Y (Redo)</span>
+  </footer>
+
+  <!-- Find & Replace Modal -->
+  <div class="modal" id="find-replace-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Find & Replace</h2>
+        <button class="modal-close" id="close-find-modal">×</button>
+      </div>
+      <div class="form-group">
+        <label for="modal-find">Find:</label>
+        <input type="text" id="modal-find" />
+      </div>
+      <div class="form-group">
+        <label for="modal-replace">Replace with:</label>
+        <input type="text" id="modal-replace" />
+      </div>
+      <div class="form-actions">
+        <button id="modal-find-prev" type="button">Previous</button>
+        <button id="modal-find-next" type="button">Next</button>
+        <button id="modal-replace-btn" type="button">Replace</button>
+        <button id="modal-replace-all-btn" type="button" class="primary">Replace All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div class="modal" id="help-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Markdown Cheat Sheet & Keyboard Shortcuts</h2>
+        <button class="modal-close" id="close-help-modal">×</button>
+      </div>
+      <div id="help-content">
+        <h3>Keyboard Shortcuts</h3>
+        <ul>
+          <li><strong>Ctrl+F</strong> - Find</li>
+          <li><strong>Ctrl+H</strong> - Find & Replace</li>
+          <li><strong>Ctrl+Z</strong> - Undo</li>
+          <li><strong>Ctrl+Y</strong> - Redo</li>
+          <li><strong>Ctrl+/</strong> - Show this help</li>
+          <li><strong>Ctrl+B</strong> - Bold</li>
+          <li><strong>Ctrl+I</strong> - Italic</li>
+          <li><strong>Ctrl+K</strong> - Insert link</li>
+          <li><strong>Ctrl+S</strong> - Save (auto-saves locally)</li>
+          <li><strong>F11</strong> - Toggle fullscreen</li>
+        </ul>
+        <h3>Markdown Syntax</h3>
+        <ul>
+          <li><strong>Headings:</strong> # H1, ## H2, ### H3</li>
+          <li><strong>Bold:</strong> **text** or __text__</li>
+          <li><strong>Italic:</strong> *text* or _text_</li>
+          <li><strong>Strikethrough:</strong> ~~text~~</li>
+          <li><strong>Code:</strong> `code` or ```code block```</li>
+          <li><strong>Link:</strong> [text](url)</li>
+          <li><strong>Image:</strong> ![alt](url)</li>
+          <li><strong>List:</strong> - item or 1. item</li>
+          <li><strong>Blockquote:</strong> &gt; text</li>
+          <li><strong>Table:</strong> Use toolbar button or type manually</li>
+          <li><strong>Horizontal Rule:</strong> --- or ***</li>
+        </ul>
+        <h3>Features</h3>
+        <ul>
+          <li>Real-time preview</li>
+          <li>Resizable panels</li>
+          <li>Dark/Light theme</li>
+          <li>Export to MD, HTML, DOC, PDF</li>
+          <li>Auto-save to localStorage</li>
+          <li>Table of Contents generator</li>
+          <li>Find & Replace</li>
+          <li>Undo/Redo</li>
+          <li>Line numbers</li>
+          <li>Word wrap</li>
+          <li>Font size controls</li>
+          <li>Fullscreen mode</li>
+          <li>Image paste/drag-drop</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js" defer></script>
+</body>
+
+</html>
