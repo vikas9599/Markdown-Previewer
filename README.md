@@ -2,6 +2,14 @@
 
 A compact, **feature-rich Markdown editor and previewer** implemented as a single-page static app. It focuses on a polished editing UX with real-time rendering, helpful editor tools, and flexible export options.
 
+
+![Editor screenshot](src/images/Homepage.PNG)
+*Editor: Edit and preview panes with toolbar and controls.*
+
+
+![Editor screenshot (alt view)](src/images/Homepage2.PNG)
+*Alternate view: dark mode or pop-out preview.*
+
 ---
 
 ## Why this project? (Benefits) 🎯
@@ -74,6 +82,8 @@ localStorage.removeItem('markdown-preview-split')
 
 - Theme preference is saved under `markdown-preview-theme` and will fall back to the system preference.
 - Font size, line numbers, wrap, and TOC visibility are persisted with keys shown in the app source.
+
+
 
 ---
 
